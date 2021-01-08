@@ -5,7 +5,10 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
@@ -15,12 +18,26 @@ public class JmsConfig {
 
     @Bean
     public CachingConnectionFactory connectionFactory() {
-        CachingConnectionFactory factory = new CachingConnectionFactory(System.getenv("RABBIT_BROKER_URL"));
-        factory.setPassword(System.getenv("RABBIT_BROKER_PASSWORD"));
-        factory.setUsername(System.getenv("RABBIT_BROKER_USERNAME"));
-        factory.setVirtualHost(System.getenv("RABBIT_BROKER_VHOST"));
-        return factory;
+        if(!(System.getProperty("os.name").equals("Windows 10"))) {
+            CachingConnectionFactory factory = new CachingConnectionFactory(System.getenv("RABBIT_BROKER_URL"));
+            factory.setPassword(System.getenv("RABBIT_BROKER_PASSWORD"));
+            factory.setUsername(System.getenv("RABBIT_BROKER_USERNAME"));
+            factory.setVirtualHost(System.getenv("RABBIT_BROKER_VHOST"));
+            System.out.println(System.getProperty("os.name"));
+            return factory;
+        }
+        else {
+            CachingConnectionFactory factory = new CachingConnectionFactory(System.getProperty("RABBIT_BROKER_URL"));
+            factory.setPassword(System.getProperty("RABBIT_BROKER_PASSWORD"));
+            factory.setUsername(System.getProperty("RABBIT_BROKER_USERNAME"));
+            factory.setVirtualHost(System.getProperty("RABBIT_BROKER_VHOST"));
+            return factory;
+        }
+
     }
+
+
+
 
     @Bean
     public AmqpAdmin amqpAdmin() {
@@ -33,10 +50,15 @@ public class JmsConfig {
     }
 
 
-    @Bean
-    public Queue myQueue() {
-        return new Queue("TestQueue",false);
-    }
 
+
+//    @Bean
+//    public SimpleMessageListenerContainer messageListenerContainer() {
+//        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+//        container.setConnectionFactory(connectionFactory());
+//        container.setQueueName("TestQueue");
+//        container.setMessageListener(exampleListener());
+//        return container;
+//    }
 
 }
