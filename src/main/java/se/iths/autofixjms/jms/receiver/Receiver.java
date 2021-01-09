@@ -21,7 +21,7 @@ public class Receiver {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    @Scheduled(fixedRate = 2000)
+//    @Scheduled(fixedRate = 2000)
     @RabbitListener(queues = "TestQueue")
     public void receiveMessage(@Payload String message) {
         logger.info("Message received: "+message);

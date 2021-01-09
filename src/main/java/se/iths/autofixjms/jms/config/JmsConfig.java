@@ -10,7 +10,11 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Component;
+
+import java.util.Properties;
 
 @Configuration
 @Component
@@ -53,12 +57,22 @@ public class JmsConfig {
 
 
 //    @Bean
-//    public SimpleMessageListenerContainer messageListenerContainer() {
-//        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-//        container.setConnectionFactory(connectionFactory());
-//        container.setQueueName("TestQueue");
-//        container.setMessageListener(exampleListener());
-//        return container;
+//    public JavaMailSender getJavaMailSender() {
+//      //  JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+////        mailSender.setHost(System.getProperty("MAIL_HOST"));
+////        mailSender.setPort(Integer.parseInt(System.getProperty("MAIL_PORT")));
+////
+////        mailSender.setUsername(System.getProperty("MAIL_USERNAME"));
+////        mailSender.setPassword("password");
+////
+////        Properties props = mailSender.getJavaMailProperties();
+////        props.put("mail.transport.protocol", "smtp");
+////        props.put("mail.smtp.auth", "true");
+////        props.put("mail.smtp.starttls.enable", "true");
+////        props.put("mail.debug", "true");
+//
+//        //return mailSender;
+//        return new JavaMailSenderImpl();
 //    }
 
 }
