@@ -51,6 +51,8 @@ public class MessageObject implements Serializable {
     public String toString() {
         return "MessageObject{" +
                 "id=" + id +
+                ", to='"+email+'\'' +
+                ", name='"+firstname+'\'' +
                 ", message='" + message + '\'' +
                 ", localDateTime=" + localDateTime +
                 '}';
