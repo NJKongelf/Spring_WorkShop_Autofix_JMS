@@ -39,10 +39,6 @@ public class JmsConfig {
         }
 
     }
-
-
-
-
     @Bean
     public AmqpAdmin amqpAdmin() {
         return new RabbitAdmin(connectionFactory());
